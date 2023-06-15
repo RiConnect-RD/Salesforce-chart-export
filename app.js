@@ -7,7 +7,7 @@ const ChartJsImage = require('chartjs-to-image');
 
 const initialUserList = [
   {
-    name: 'Software \rDev.  Dept.',
+    name: 'Dev.',
     email: 'rd@riconnect.tech',
     count: 0,
   },
@@ -17,17 +17,17 @@ const initialUserList = [
     count: 0,
   },
   {
-    name: 'Lay Ana',
+    name: 'Ana',
     email: 'ana_lay@riconnect.tech',
     count: 0,
   },
   {
-    name: 'Lin  Jimmy',
+    name: 'Jimmy',
     email: 'jimmy_lin@riconnect.tech',
     count: 0,
   },
   {
-    name: 'Lee Hugo',
+    name: 'Hugo',
     email: 'hugo_lee@riconnect.tech',
     count: 0,
   },
@@ -37,32 +37,32 @@ const initialUserList = [
     count: 0,
   },
   {
-    name: '青山 龍也',
+    name: 'Aoyama',
     email: 'tatsuya_aoyama@riconnect.tech',
     count: 0,
   },
   {
-    name: 'Okada Daisaku',
+    name: 'Okada',
     email: 'daisaku_okada@riconnect.tech',
     count: 0,
   },
   {
-    name: 'Tsai Helen',
+    name: 'Helen',
     email: 'helen_tsai+ri@riconnect.tech',
     count: 0,
   },
   {
-    name: 'Lin Jim',
+    name: 'Jim',
     email: 'jim_lin@riconnect.tech',
     count: 0,
   },
   {
-    name: 'Wu Dennis',
+    name: 'Dennis',
     email: 'dennis_wu@riconnect.tech',
     count: 0,
   },
   {
-    name: 'Kung Neo',
+    name: 'Neo',
     email: 'neo_kung@riconnect.tech',
     count: 0,
   },
@@ -102,7 +102,7 @@ const uploadXLSX = async (req, res, next) => {
           datalabels: {
             anchor: 'end',
             font: {
-              size: 32
+              size: 50
             }
           }
         }]
@@ -112,27 +112,28 @@ const uploadXLSX = async (req, res, next) => {
         legend: {
           position: 'right',
           labels: {
-            fontSize: 32
-          }
+            fontSize: 50,
+            padding: 60
+          },
         },
         layout: {
           padding: {
-            top: 30,
+            top: 100,
             left: 30,
-            right: 30,
+            right: 80,
             bottom: 60
           }
         },
         scales: {
           xAxes: [{
             ticks: {
-              fontSize: 26,
+              fontSize: 50,
               color: 'black'
             }
           }],
           yAxes: [{
             ticks: {
-              fontSize: 32,
+              fontSize: 50,
               color: 'black'
             }
           }]
@@ -146,8 +147,8 @@ const uploadXLSX = async (req, res, next) => {
         },
       }
     });
-    myChart.setHeight(700);
-    myChart.setWidth(2600);
+    myChart.setHeight(1200);
+    myChart.setWidth(3000);
     myChart.toFile('./uploads/myChart.png');
 
     return res.status(201).json({
