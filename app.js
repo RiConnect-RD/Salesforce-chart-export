@@ -13,7 +13,7 @@ const initialUserList = [
   },
   {
     name: 'YOKE',
-    email: 'riconnect.marketing@riconnect.tech',
+    email: 'riconnect.marketing@gmail.com',
     count: 0,
   },
   {
@@ -33,7 +33,7 @@ const initialUserList = [
   },
   {
     name: 'Deloitte',
-    email: 'angeyang@riconnect.tech',
+    email: 'angeyang@deloitte.com.ri',
     count: 0,
   },
   {
