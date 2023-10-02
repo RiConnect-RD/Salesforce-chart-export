@@ -10,61 +10,61 @@ const initialUserList = [
     name: 'Dev.',
     email: 'rd@riconnect.tech',
     count: 0,
+    lastCount: 0,
   },
   {
     name: 'YOKE',
     email: 'riconnect.marketing@gmail.com',
     count: 0,
+    lastCount: 0,
   },
   {
     name: 'Ana',
     email: 'ana_lay@riconnect.tech',
     count: 0,
-  },
-  {
-    name: 'Jimmy',
-    email: 'jimmy_lin@riconnect.tech',
-    count: 0,
+    lastCount: 0,
   },
   {
     name: 'Hugo',
     email: 'hugo_lee@riconnect.tech',
     count: 0,
+    lastCount: 0,
   },
   {
     name: 'Deloitte',
     email: 'angeyang@deloitte.com.ri',
     count: 0,
+    lastCount: 0,
   },
   {
     name: 'Aoyama',
     email: 'tatsuya_aoyama@riconnect.tech',
     count: 0,
+    lastCount: 0,
   },
   {
     name: 'Okada',
     email: 'daisaku_okada@riconnect.tech',
     count: 0,
+    lastCount: 0,
   },
   {
     name: 'Helen',
     email: 'helen_tsai+ri@riconnect.tech',
     count: 0,
+    lastCount: 0,
   },
   {
     name: 'Jim',
     email: 'jim_lin@riconnect.tech',
     count: 0,
+    lastCount: 0,
   },
   {
     name: 'Dennis',
     email: 'dennis_wu@riconnect.tech',
     count: 0,
-  },
-  {
-    name: 'Neo',
-    email: 'neo_kung@riconnect.tech',
-    count: 0,
+    lastCount: 0,
   },
 ]
 
@@ -76,36 +76,56 @@ const uploadXLSX = async (req, res, next) => {
     
     let start = req.body.start;
     let end = req.body.end;
+    let lastStart = req.body.last_start;
+    let lastEnd = req.body.last_end;
     let tempUserList = JSON.parse(JSON.stringify(initialUserList));
     xlData.forEach((item) => {
-      if (moment(item['Login Time (??????)'], 'YYYY/MM/DD A hh:mm').format('YYYYMMDD') >= moment(start).format('YYYYMMDD') && moment(item['Login Time (??????)'], 'YYYY/MM/DD A hh:mm').format('YYYYMMDD') <= moment(end).format('YYYYMMDD')) {
+      if ((moment(item['Login Time (??????)'], 'YYYY/MM/DD A hh:mm').format('YYYYMMDD') >= moment(start).format('YYYYMMDD') && moment(item['Login Time (??????)'], 'YYYY/MM/DD A hh:mm').format('YYYYMMDD') <= moment(end).format('YYYYMMDD')) || (moment(item['Login Time (??????)'], 'YYYY/MM/DD A hh:mm').format('YYYYMMDD') >= moment(lastStart).format('YYYYMMDD') && moment(item['Login Time (??????)'], 'YYYY/MM/DD A hh:mm').format('YYYYMMDD') <= moment(lastEnd).format('YYYYMMDD'))) {
         tempUserList.forEach((child, index) => {
           if (child.email === item.Username) {
-            tempUserList[index].count += 1;
+            if (moment(item['Login Time (??????)'], 'YYYY/MM/DD A hh:mm').format('YYYYMMDD') >= moment(start).format('YYYYMMDD') && moment(item['Login Time (??????)'], 'YYYY/MM/DD A hh:mm').format('YYYYMMDD') <= moment(end).format('YYYYMMDD')) {
+              tempUserList[index].count += 1;
+            } else {
+              tempUserList[index].lastCount += 1;
+            }
           }
         })
       }
     });
     const myChart = new ChartJsImage();
-    let nameList = [], valueList = [];
+    let nameList = [], valueList = [], lastValueList = [];
     tempUserList.forEach((item) => {
       nameList.push(item.name);
       valueList.push(item.count);
+      lastValueList.push(item.lastCount);
     })
   
     myChart.setConfig({
       type: 'bar',
       data: {
-        labels: nameList, datasets: [{
-          label: '登入次數',
-          data: valueList,
-          datalabels: {
-            anchor: 'end',
-            font: {
-              size: 50
+        labels: nameList, 
+        datasets: [
+          {
+            label: `${moment(lastStart).format('M')}月`,
+            data: lastValueList,
+            datalabels: {
+              anchor: 'end',
+              font: {
+                size: 50
+              }
             }
-          }
-        }]
+          },
+          {
+            label: `${moment(start).format('M')}月`,
+            data: valueList,
+            datalabels: {
+              anchor: 'end',
+              font: {
+                size: 50
+              }
+            }
+          },
+        ]
       },
 
       options: {
